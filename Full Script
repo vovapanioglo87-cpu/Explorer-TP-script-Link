@@ -1,0 +1,87 @@
+local workinkUrl = "https://work.ink/33g8/explorer-teleport-search-script-universal"
+
+-- Создание основы графического интерфейса
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local InfoText = Instance.new("TextLabel")
+local CopyButton = Instance.new("TextButton")
+local OkButton = Instance.new("TextButton")
+local UICornerMain = Instance.new("UICorner")
+local UICornerCopy = Instance.new("UICorner")
+local UICornerOk = Instance.new("UICorner")
+
+-- Привязка к системе Roblox (CoreGui защищает окно от удаления обычными скриптами игры)
+ScreenGui.Parent = game:GetService("CoreGui")
+ScreenGui.Name = "WorkInkLinkGui"
+ScreenGui.ResetOnSpawn = false
+
+-- Главное окно меню (Тёмная тема)
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MainFrame.Position = UDim2.new(0.5, -140, 0.5, -70)
+MainFrame.Size = UDim2.new(0, 280, 0, 140)
+MainFrame.Active = true
+MainFrame.Draggable = true -- Окно можно свободно перетаскивать мышкой по экрану
+
+UICornerMain.CornerRadius = UDim.new(0, 8)
+UICornerMain.Parent = MainFrame
+
+-- Элемент 1: Информационный Текст
+InfoText.Name = "InfoText"
+InfoText.Parent = MainFrame
+InfoText.BackgroundTransparency = 1
+InfoText.Position = UDim2.new(0, 15, 0, 15)
+InfoText.Size = UDim2.new(1, -30, 0, 40)
+InfoText.Font = Enum.Font.SourceSans
+InfoText.Text = "Use the link below to get the latest script version and support the project."
+InfoText.TextColor3 = Color3.fromRGB(220, 220, 220)
+InfoText.TextSize = 15
+InfoText.TextWrapped = true
+
+-- Элемент 2: Кнопка COPY (Копирование ссылки)
+CopyButton.Name = "CopyButton"
+CopyButton.Parent = MainFrame
+CopyButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255) -- Синий цвет
+CopyButton.Position = UDim2.new(0, 15, 0, 75)
+CopyButton.Size = UDim2.new(0, 120, 0, 40)
+CopyButton.Font = Enum.Font.SourceSansBold
+CopyButton.Text = "COPY"
+CopyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CopyButton.TextSize = 16
+
+UICornerCopy.CornerRadius = UDim.new(0, 6)
+UICornerCopy.Parent = CopyButton
+
+-- Элемент 3: Кнопка OK (Закрытие окна)
+OkButton.Name = "OkButton"
+OkButton.Parent = MainFrame
+OkButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60) -- Серый цвет
+OkButton.Position = UDim2.new(1, -135, 0, 75)
+OkButton.Size = UDim2.new(0, 120, 0, 40)
+OkButton.Font = Enum.Font.SourceSansBold
+OkButton.Text = "OK"
+OkButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+OkButton.TextSize = 16
+
+UICornerOk.CornerRadius = UDim.new(0, 6)
+UICornerOk.Parent = OkButton
+
+-- Логика кнопки COPY
+CopyButton.MouseButton1Click:Connect(function()
+    if setclipboard then
+        setclipboard(workinkUrl) -- Автоматически заносит вашу ссылку в буфер обмена игрока
+        CopyButton.Text = "COPIED!"
+        CopyButton.BackgroundColor3 = Color3.fromRGB(0, 180, 90) -- Кнопка зеленеет при успехе
+        task.wait(1.5)
+        CopyButton.Text = "COPY"
+        CopyButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+    else
+        CopyButton.Text = "NOT SUPPORTED"
+    end
+end)
+
+-- Логика кнопки OK
+OkButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy() -- Полностью закрывает и удаляет интерфейс с экрана игры
+end)
